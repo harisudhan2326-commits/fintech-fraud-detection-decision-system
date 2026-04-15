@@ -10,7 +10,7 @@ df['time_diff'] = df['Time']-df['time_shift']
 
 # print(df[['Time','time_shift','time_diff']]) # Time did not provide signals for normal and fraud transactions due to similar distributions
 
-# Splitting the dataset based ob the classes
+# Splitting the dataset based on the classes
 Fraud_Dataset = df[df['Class'] == 1]
 Normal_Dataset = df[df['Class'] == 0]
 
@@ -101,5 +101,42 @@ def analyze_amount(df):
     print("3. Values beyond ₹100 appear as outliers.")
     print("4. High-value transactions (>₹500-₹1000) are rare and can be treated as risk signals.")
 
-analyze_amount(df)
 
+
+def quantiles_amount(df):
+    q90 = df['Amount'].quantile(0.90)
+    q95 = df['Amount'].quantile(0.95)
+    q99 = df['Amount'].quantile(0.99)
+    return q90,q95,q99
+q90,q95,q99 = quantiles_amount(df)
+
+
+
+def analyze_time(df):
+    df['Hours'] = df['Time']/3600
+    df['Hours'] = df['Hours'].astype(int)
+    df['Trans_per_Hour'] = df['Hours'] % 24
+    print(df['Trans_per_Hour'])
+
+    TP_hour = df['Trans_per_Hour'].value_counts(normalize=True).sort_index()
+
+    TP_hour.plot(kind='bar')
+    plt.title('Transaction Distribution by Hour')
+    plt.xlabel('Hour of the Day')
+    plt.ylabel('Transaction Count')
+    plt.show()  
+
+    print("\n TIME INTERPRETATION")
+    print("----------------------------------------")
+    print("1.  Transaction activity shows a clear dip during early morning hours (2 AM - 6 AM), where activity falls below ~1.5%.")
+    print("2.  In contrast, activity peaks during daytime and evening hours (10 AM - 9 PM), reaching around 5 - 6%.")  
+    print("----------------------------------------")
+    print("The interpretation indicates that early morning transactions are relatively uncommon and can be considered anomalous")
+
+
+
+if __name__ == "__main__":
+    from data_loader import load_data
+    df = load_data()
+    analyze_amount(df)
+    analyze_time(df)

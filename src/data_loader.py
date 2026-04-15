@@ -1,7 +1,7 @@
 import pandas as pd
 
 def load_data():
-    df = pd.read_csv('../data/raw_data.csv')
+    # df = pd.read_csv('../data/raw_data.csv')
     # print(df.head())
     # print("--------------------------")
     # print(df.shape)

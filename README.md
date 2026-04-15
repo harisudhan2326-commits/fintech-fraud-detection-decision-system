@@ -151,9 +151,10 @@ Pandas, NumPy
 ## Current Progress
 ✅ Data loading completed
 ✅ Exploratory Data Analysis (EDA) completed
+✅ Rule Engine Process completed
 🔄 Feature engineering in progress
 🔄 Model training in progress
-🔄 Decision engine implementation ongoing
+
 
 
 ## Author
